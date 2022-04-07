@@ -8,11 +8,12 @@ using GameOfLife;
 
 namespace ConsoleGame
 {
+    
     class Program
     {
         static void Main(string[] args)
         {
-            
+
             while (true)
             {
                 Console.Clear();
@@ -41,20 +42,20 @@ namespace ConsoleGame
                     continue;
                 }
 
-
                 GameCore gameCore = new GameCore(rows, columns, density);
 
                 while (true)
                 {
-                    var field = gameCore.CallCurrentGeneration();
-                    Console.Write('#');
 
                     gameCore.CellNextGeneration();
+                    Console.Write('#');
 
                 }
+                
             }
-            
+
         }
+        
     }
 
 
