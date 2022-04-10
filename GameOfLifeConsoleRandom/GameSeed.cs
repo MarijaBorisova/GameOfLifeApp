@@ -30,8 +30,27 @@ namespace GameOfLifeConsoleRandom
 			gameField = (int[,])newField.Clone();
 
 			changesCounter = 1;
+            Random random = new Random();
 
-			row = gameField.GetLength(1); 
+            for (int y = 0; y < gameField.GetLength(0); y++) //solid principles, the code of random numbers generating
+            {
+                for (int x = 0; x < gameField.GetLength(1); x++)
+                {
+                    gameField[y, x] = random.Next(2); // 0- dead cell, 1- alive
+                }
+
+            }
+
+            for (int y = 0; y < gameField.GetLength(0); y++) // the part which input the array elements
+            {
+                for (int x = 0; x < gameField.GetLength(1); x++)
+                {
+                    Console.Write(gameField[y, x] + " ");
+                }
+                Console.WriteLine();
+            }
+
+            row = gameField.GetLength(1); 
 			column = gameField.GetLength(0); 
 
 			changedField = new int[column, row];//creates an empty field to store the next changed field

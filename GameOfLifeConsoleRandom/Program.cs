@@ -8,6 +8,10 @@ namespace GameOfLifeConsoleRandom
     {
         static void Main(string[] args)
         {
+            uint MaxRuns = 100;
+            int runs = 0;
+            
+
             while (true)
             {
                 Console.Clear();
@@ -18,33 +22,42 @@ namespace GameOfLifeConsoleRandom
                     Console.WriteLine("Please, insert the size of game and number of cells. \t");
 
                     Console.Write("The number of rows:\t ");
-                    int rows = int.Parse(Console.ReadLine());
+                    int row = int.Parse(Console.ReadLine());
                     Console.Write("The number of columns:\t ");
-                    int columns = int.Parse(Console.ReadLine());
+                    int column = int.Parse(Console.ReadLine());
                     //Console.Write("The quantity of cells:\t ");
                     //int density = int.Parse(Console.ReadLine());
 
 
 
-                    int[,] field = new int[rows, columns];
-                    Random random = new Random();
+                    int[,] gameField = new int[row, column];
+                    GameSeed gameSeed = new GameSeed(gameField);
 
-                    for (int y = 0; y < field.GetLength(0); y++) //solid principles, the code of random numbers generating
+                    Console.WriteLine("Field 0");
+                    gameSeed.DrawField();
+                    Console.WriteLine();
+
+                    
+                    while (gameSeed.AliveCells() > 0 && runs++ < MaxRuns)
                     {
-                        for (int x = 0; x < field.GetLength(1); x++)
-                        {
-                            field[y, x] = random.Next(2); // 0- dead cell, 1- alive
-                        }
 
-                    }
-
-                    for (int y = 0; y < field.GetLength(0); y++) // the part which input the array elements
-                    {
-                        for (int x = 0; x < field.GetLength(1); x++)
-                        {
-                            Console.Write(field[y, x] + " ");
-                        }
                         Console.WriteLine();
+                        //Console.WriteLine("Field {0}", gameSeed.ChangesCounter);
+
+                        gameSeed.NewCellGeneration();
+                        gameSeed.DrawField();
+
+                        Console.WriteLine();
+
+                        if (gameSeed.AliveCells() == 0)
+                        {
+                            Console.WriteLine("Everyone is died!");
+                            Console.ReadLine();
+                        }
+                        else
+                        {
+
+                        }
                     }
                 }
 
