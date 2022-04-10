@@ -37,7 +37,7 @@ namespace GameOfLifeConsoleRandom
                     gameSeed.DrawField();
                     Console.WriteLine();
 
-                    
+
                     while (gameSeed.AliveCells() > 0 && runs++ < MaxRuns)
                     {
 

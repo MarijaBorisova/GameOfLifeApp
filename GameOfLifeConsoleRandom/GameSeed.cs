@@ -30,6 +30,7 @@ namespace GameOfLifeConsoleRandom
 			gameField = (int[,])newField.Clone();
 
 			changesCounter = 1;
+
             Random random = new Random();
 
             for (int y = 0; y < gameField.GetLength(0); y++) //solid principles, the code of random numbers generating
@@ -45,7 +46,7 @@ namespace GameOfLifeConsoleRandom
             {
                 for (int x = 0; x < gameField.GetLength(1); x++)
                 {
-                    Console.Write(gameField[y, x] + " ");
+                    //Console.Write(gameField[y, x] + " ");
                 }
                 Console.WriteLine();
             }
@@ -61,7 +62,7 @@ namespace GameOfLifeConsoleRandom
             for (int y = 0; y < column; y++)
             {
                 for (int x = 0; x < row; x++)
-                    Console.Write("{0}", gameField[y, x]);
+                    Console.Write(gameField[y, x] + " ");
                 Console.WriteLine();
             }
             Console.WriteLine();
