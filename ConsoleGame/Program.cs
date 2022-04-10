@@ -51,7 +51,7 @@ namespace ConsoleGame
                     Console.Write('#');
 
                 }
-                
+         
             }
 
         }

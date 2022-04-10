@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameOfLife
-    
+
 {
     /// <summary>
     /// logic of game
     /// </summary>
     public class GameCore
     {
-       // the place of cells in the field will be on x and y coordinates in array
+        // the place of cells in the field will be on x and y coordinates in array
         private bool[,] field; // playfield, an array in which all the cells will be counted (alive or dead)
         private readonly int rows; //in order to fix the number in constructor
         private readonly int columns;
@@ -21,19 +21,29 @@ namespace GameOfLife
         public GameCore(int rows, int columns, int density)//rows and columns for the size of the field, density for cells quantity in the beginning
         {
             this.rows = rows;
-            this.columns = columns; 
+            this.columns = columns;
             field = new bool[columns, rows]; //creating the field, user should write the size of row (y) and cols (x)
-            Random random= new Random();// to create the first cell generation, random number object generator
+
+            Random random = new Random();// to create the first cell generation, random number object generator
             for (int x = 0; x < columns; x++)
             {
                 for (int y = 0; y < rows; y++)
                 {
-                    field[x, y] = random.Next(density)==0; //Random generates the random cells numbers till the parameter density ==0 (true), that the new cell in the field will be generated, 1=false
+
+                    field[x, y] = random.Next(density) == 0; //Random generates the random cells numbers till the parameter density ==0 (true), that the new cell in the field will be generated, 1=false
                 }
+            }
+            for (int y = 0; y < rows; y++) // the part which input the array elements
+            {
+                for (int x = 0; x < columns; x++)
+                {
+                    Console.Write(field[y, x] + " ");
+                }
+                Console.WriteLine();
             }
 
         }
-        // method for next generation of cell
+        //method for next generation of cell
         public void CellNextGeneration()
 
         {
@@ -57,34 +67,35 @@ namespace GameOfLife
             }
 
             field = newfield;
-            
+
         }
 
         //  the method to count the neighbours to the current cell by x and y coordinates
         // in order to model the situation if the new life should be born or cell will be died
 
-        private int CellNeighboursCount(int x, int y) 
+        private int CellNeighboursCount(int x, int y)
         {
             int count = 0;// variable in which the quantity will be saved
             for (int i = -1; i < 2; i++)// -1, the info of neigbours from left side
             {
                 for (int j = -1; j < 2; j++)//2- info of neighbours from right side;
                 {
-                    int column = (x + i+columns) % columns;
-                    int row = (y + j+ rows) % rows;
-                   
-                    
-                    var currentCellIs =column==x&row==y;//to check if it is not a current cell, it should be included
+                    int column = (x + i + columns) % columns;
+                    int row = (y + j + rows) % rows;
+
+
+                    var currentCellIs = column == x & row == y;//to check if it is not a current cell, it should be included
                     var cellAlive = field[column, row];// to count live neigbour cell
 
                     if (cellAlive && !currentCellIs)
                         count++;//live neighbour, +1 to counter
-     
+
                 }
             }
             return count;
-        }
-        
-    }
 
+
+        }
+
+    }
 }
