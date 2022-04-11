@@ -1,16 +1,12 @@
-﻿
-using System;
-
-
-namespace GameOfLifeConsoleRandom
+﻿namespace GameOfLifeConsoleRandom
 {
     class Program
     {
         static void Main(string[] args)
         {
-            uint MaxRuns = 100;
+            uint MaxRuns = 10;
             int runs = 0;
-            
+
 
             while (true)
             {
