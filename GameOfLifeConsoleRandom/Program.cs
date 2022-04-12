@@ -1,11 +1,16 @@
-﻿namespace GameOfLifeConsoleRandom
+﻿
+using System;
+
+
+namespace GameOfLifeConsoleRandom
 {
     class Program
     {
         static void Main(string[] args)
         {
-            uint MaxRuns = 10;
+            uint MaxRuns = 100;
             int runs = 0;
+
 
 
             while (true)
@@ -52,9 +57,12 @@
                         }
                         else
                         {
-
+                            Console.ReadLine();
+                            //break;
                         }
+                        
                     }
+                    
                 }
 
                 catch (Exception)
@@ -63,7 +71,7 @@
                     Console.ReadLine();
                     continue;
                 }
-                Console.ReadLine();
+                //Console.ReadLine();
 
                 //int[,] field = new int[5,5];
                 //Random random = new Random();
@@ -89,6 +97,9 @@
                 //	}
                 //}
             }
+            
+
         }
+
     }
 }

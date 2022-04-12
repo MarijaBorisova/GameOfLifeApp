@@ -54,6 +54,7 @@
 
                 Console.WriteLine();
 
+
                 if (gameSeed.AliveCells() == 0)
                 {
                     Console.WriteLine("Everyone is died!");
@@ -61,8 +62,10 @@
                 }
                 else
                 {
-
+                    Console.ReadLine();
+                    //break;
                 }
+
             }
         }
     }

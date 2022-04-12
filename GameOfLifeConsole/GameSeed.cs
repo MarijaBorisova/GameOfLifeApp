@@ -42,6 +42,7 @@
             Console.WriteLine();
         }
 
+        //to count the number of alive cells
         public int AliveCells()
         {
             int count = 0;
@@ -51,7 +52,7 @@
                     if (gameField[y, x] == 1)
                         count++;
 
-            return count;
+            return count;//adds one to the count if there is a cell that is alive and returns the value
         }
 
 
@@ -130,6 +131,7 @@
 
         public void NewCellGeneration()
         {
+
             int[,] newGameField = new int[column, row];// the new array in which the new cell generation will be created
 
             changedField = (int[,])gameField.Clone();
@@ -138,14 +140,20 @@
             {
                 for (int x = 0; x < row; x++)
                 {
-                    if (gameField[y, x] == 0 && Neighbours(x, y) == 3)
+
+                    //if (Neighbours(x, y) < 2)//if the cell has 0 or 1 neighbours,
+                    //                         //if it does the cell is died by setting it to 0.
+
+                    //    newGameField[y, x] = 0;
+                    if (gameField[y, x] == 0 && Neighbours(x, y) == 3)//if the cell is dead and has three neighbours.
+                                                                      //If it does a new cell is born. 
                         newGameField[y, x] = 1;
-                    //if (gameField[y, x] == 1 &&
-                    //       (Neighbours(x, y) < 2 || Neighbours(x, y) > 3))// in the next generation will not be alive cell
-                    //    newGameField[y, x] = 1; //if false (0)- it will die
-                    if (gameField[y, x] == 1 &&
-                           (Neighbours(x, y) == 2 || Neighbours(x, y) == 3))// in the next generation will not be alive cell
-                        newGameField[y, x] = 1; // if this will be valid with the 2, the overpopulation
+                    else if (gameField[y, x] == 1 &&
+                           (Neighbours(x, y) == 2 || Neighbours(x, y) == 3))//if the cell is alive and it has two or three neighbours.
+                                                                            //If that is true the cell is alive
+                        newGameField[y, x] = 1;
+                    //else
+                    //    newGameField[y, x] = 0;// otherwise the cell is died
                 }
             }
 
