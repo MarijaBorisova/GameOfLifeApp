@@ -11,8 +11,6 @@ namespace GameOfLifeConsoleRandom
             uint MaxRuns = 100;
             int runs = 0;
 
-
-
             while (true)
             {
                 Console.Clear();
@@ -33,6 +31,7 @@ namespace GameOfLifeConsoleRandom
 
                     int[,] gameField = new int[row, column];
                     GameSeed gameSeed = new GameSeed(gameField);
+
 
                     Console.WriteLine("Field 0");
                     gameSeed.DrawField();
@@ -60,9 +59,9 @@ namespace GameOfLifeConsoleRandom
                             Console.ReadLine();
                             //break;
                         }
-                        
+
                     }
-                    
+
                 }
 
                 catch (Exception)
@@ -71,35 +70,9 @@ namespace GameOfLifeConsoleRandom
                     Console.ReadLine();
                     continue;
                 }
-                //Console.ReadLine();
+                
 
-                //int[,] field = new int[5,5];
-                //Random random = new Random();
-                //int rows = field.GetLength(0);
-                //int columns = field.GetLength(1);
-
-                //	for (int y = 0; y < rows; y++) //solid principles, the code of random numbers generating
-                //	{
-                //		for (int x = 0; x < columns; x++)
-                //		{
-                //			field[y, x] = random.Next(2); // 0- dead cell, 1- alive
-                //		}
-
-                //	}
-
-                //	for (int y = 0; y < rows; y++) // the part which input the array elements
-                //	{
-                //		for (int x = 0; x < columns; x++)
-                //		{
-                //			Console.Write(field[y, x] + " ");
-                //		}
-                //		Console.WriteLine();
-                //	}
-                //}
             }
-            
-
         }
-
     }
 }
