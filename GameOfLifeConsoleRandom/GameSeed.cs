@@ -90,7 +90,7 @@
                 {
                     if (!((i < 0 || j < 0) || (i >= column || j >= row)))
                     {
-                        if (gameField[i, j] == 0)
+                        if (gameField[i, j] == 1)
                             count++;
                     }
                 }
