@@ -1,8 +1,4 @@
-﻿
-using System;
-
-
-namespace GameOfLifeConsoleRandom
+﻿namespace GameOfLifeConsoleRandom
 {
     class Program
     {
@@ -24,25 +20,17 @@ namespace GameOfLifeConsoleRandom
                     int row = int.Parse(Console.ReadLine());
                     Console.Write("The number of columns:\t ");
                     int column = int.Parse(Console.ReadLine());
-                    //Console.Write("The quantity of cells:\t ");
-                    //int density = int.Parse(Console.ReadLine());
-
-
 
                     int[,] gameField = new int[row, column];
                     GameSeed gameSeed = new GameSeed(gameField);
-
 
                     Console.WriteLine("Field 0");
                     gameSeed.DrawField();
                     Console.WriteLine();
 
-
                     while (gameSeed.AliveCells() > 0 && runs++ < MaxRuns)
                     {
-
                         Console.WriteLine();
-                        //Console.WriteLine("Field {0}", gameSeed.ChangesCounter);
 
                         gameSeed.NewCellGeneration();
                         gameSeed.DrawField();
@@ -57,21 +45,15 @@ namespace GameOfLifeConsoleRandom
                         else
                         {
                             Console.ReadLine();
-                            //break;
                         }
-
                     }
-
                 }
-
                 catch (Exception)
                 {
                     Console.WriteLine("Input incorrect data! Please, try again.");
                     Console.ReadLine();
                     continue;
                 }
-                
-
             }
         }
     }

@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GameOfLifeConsoleRandom\GameOfLifeConsoleRandom.csproj" />
+    <ProjectReference Include="..\GameOfLifeConsole\GameOfLifeConsole.csproj" />
+  </ItemGroup>
+
 </Project>
