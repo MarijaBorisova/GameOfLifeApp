@@ -8,12 +8,14 @@
         // The place of cells in the field will be with x and y coordinates in array.
         // Current field of cells, playfield, an array in which all the cells will be counted
         // (alive or dead).
-        int[,] gameField;
+        private int[,] gameField;
         // Current field will be changed after new requirements.
-        int[,] changedField;
+        private int[,] changedField;
         // Field sizes.
-        int row;
-        int column;
+        private int row;
+        private int column;
+        //Field, property to count the next cell generation.
+        public int CountIteration { get; set; }
 
         /// <summary>
         /// Const. creates the field of cells by cloning the array.
@@ -28,6 +30,8 @@
 
             // Creates an empty field to store the next changed field.
             changedField = new int[column, row];
+
+            CountIteration = 0;
         }
 
         /// <summary>
@@ -47,7 +51,7 @@
         /// <summary>
         /// To count the number of alive cells.
         /// </summary>
-        /// <returns>Alive cells number</returns>
+        /// <returns> Alive cells number.</returns>
         public int AliveCells()
         {
             int count = 0;
@@ -71,9 +75,9 @@
         {
             int count = 0;
 
-            for (int i = x - 1; i <= x + 1; i++)
+            for (int i = x - 1; i < x + 1; i++)
             {
-                for (int j = y - 1; j <= y + 1; j++)
+                for (int j = y - 1; j < y + 1; j++)
                 {
                     if (!((i < 0 || j < 0) || (i >= column || j >= row)))
                     {
@@ -84,6 +88,7 @@
             }
             return count;
         }
+
         /// <summary>
         /// New Cells/Field generation method.
         /// </summary>
@@ -91,6 +96,7 @@
         {
             int[,] newGameField = new int[column, row];
             changedField = (int[,])gameField.Clone();
+            
 
             for (int y = 0; y < column; y++)
             {
@@ -105,9 +111,12 @@
                            (neighboursNumber == 2 || neighboursNumber == 3))// If the cell is alive and it has two or three neighbours.
                                                                             // If that is true the cell is alive.
                         newGameField[y, x] = 1;
+                    else if (gameField[y, x] == 1 && (neighboursNumber < 2 || neighboursNumber > 3))
+                        newGameField[y, x] = 0;
                 }
             }
             gameField = (int[,])newGameField.Clone();
+            CountIteration++;
         }
     }
 }

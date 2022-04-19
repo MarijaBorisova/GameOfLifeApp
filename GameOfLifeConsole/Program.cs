@@ -4,6 +4,9 @@
     {
         static void Main(string[] args)
         {
+            Console.CursorVisible = false;
+            Console.SetCursorPosition(0, 0);
+
             while (true)
             {
                 Console.Clear();
@@ -23,23 +26,21 @@
                 switch (consoleKey)
                 {
                     case ConsoleKey.M:
-                        seed = new int[,]
+                    seed = new int[,]
                    {
                     {0,0,0,0,0},
-                    {0,0,1,0,0},
+                    {0,0,0,0,0},
                     {0,1,1,1,0},
-                    {0,0,1,0,0},
+                    {0,0,0,0,0},
                     {0,0,0,0,0}
+                    
                    };
                         GameSeed gameSeed = new GameSeed(seed);
-                        Console.ReadLine();
-                        Console.WriteLine("Start Field");
-                        gameSeed.DrawField();
-                        Console.WriteLine();
-
-                        while (gameSeed.AliveCells() > 0 && runs++ < MaxRuns)
+                        
+                            while (gameSeed.AliveCells() > 0 && runs++ < MaxRuns)
                         {
-                            Console.WriteLine();
+                            Console.Clear();
+                            Console.WriteLine("Iteration {0}", gameSeed.CountIteration);
                             gameSeed.NewCellGeneration();
                             gameSeed.DrawField();
                             Console.WriteLine();
@@ -78,7 +79,6 @@
                                         seed[y, x] = random.Next(2); // 0- dead cell, 1- alive
                                     }
                                 }
-
                                 for (int y = 0; y < seed.GetLength(0); y++) // The part which input the array elements.
                                 {
                                     for (int x = 0; x < seed.GetLength(1); x++)
@@ -89,16 +89,17 @@
                                 }
 
                                 GameSeed gameSeedRandom = new GameSeed(seed);
-                                Console.WriteLine("Start Field");
-                                gameSeedRandom.DrawField();
-                                Console.WriteLine();
 
                                 while (gameSeedRandom.AliveCells() > 0 && runs++ < MaxRuns)
                                 {
-                                    Console.WriteLine();
+                                    Console.Clear();
+                                    Console.Title= gameSeedRandom.CountIteration.ToString("Iteration {0}");
+                                    Console.SetCursorPosition(0, 0);
                                     gameSeedRandom.NewCellGeneration();
                                     gameSeedRandom.DrawField();
                                     Console.WriteLine();
+
+                                    char stop;
 
                                     if (gameSeedRandom.AliveCells() == 0)
                                     {
