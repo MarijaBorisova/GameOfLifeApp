@@ -30,7 +30,6 @@
 
             // Creates an empty field to store the next changed field.
             changedField = new int[column, row];
-
             CountIteration = 0;
         }
 
@@ -53,16 +52,17 @@
         /// </summary>
         /// <returns> Alive cells number.</returns>
         public int AliveCells()
-        {
+        { 
             int count = 0;
-
             for (int y = 0; y < column; y++)
                 for (int x = 0; x < row; x++)
                     if (gameField[y, x] == 1)
                         count++;
-
-            return count;// Adds one to the count if there is a cell that is alive and
-                         // returns the value.
+                        Console.WriteLine("Alive cells number: " + count);
+                        
+            // Adds one to the count if there is a cell that is alive and
+            // returns the value.
+            return count;    
         }
 
         /// <summary>
@@ -96,13 +96,13 @@
         {
             int[,] newGameField = new int[column, row];
             changedField = (int[,])gameField.Clone();
-            
+
 
             for (int y = 0; y < column; y++)
             {
                 for (int x = 0; x < row; x++)
                 {
-                    int neighboursNumber = NeighboursCount(x,y);
+                    int neighboursNumber = NeighboursCount(x, y);
                     // If the cell is dead and has three neighbours.
                     // If it does a new cell is born. 
                     if (gameField[y, x] == 0 && neighboursNumber == 3)

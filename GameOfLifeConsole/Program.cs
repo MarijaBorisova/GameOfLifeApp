@@ -12,123 +12,131 @@
                 Console.Clear();
                 try
                 {
-                
-            uint MaxRuns = 20;
-            int runs = 0;
-            int[,] seed = null;
 
-            Console.WriteLine("App Title: Game Of Life");
-            Console.WriteLine("Please, select if you would like to see the Blinker life circle (M) or " +
-                "LifeCircle with Random numbers (R). \t");
-            Console.Write("Select : M or R:\t ");
-                    
-                ConsoleKey consoleKey = Console.ReadKey().Key;
-                switch (consoleKey)
-                {
-                    case ConsoleKey.M:
-                    seed = new int[,]
-                   {
+                    uint MaxRuns = 20;
+                    int runs = 0;
+                    int[,] seed = null;
+
+                    Console.WriteLine("App Title: Game Of Life");
+                    Console.WriteLine("Please, select if you would like to see the Blinker life circle (M) or " +
+                        "LifeCircle with Random numbers (R). \t");
+                    Console.Write("Select : M or R:\t ");
+
+                    ConsoleKey consoleKey = Console.ReadKey().Key;
+                    switch (consoleKey)
+                    {
+                        case ConsoleKey.M:
+                            seed = new int[,]
+                           {
                     {0,0,0,0,0},
                     {0,0,0,0,0},
                     {0,1,1,1,0},
                     {0,0,0,0,0},
                     {0,0,0,0,0}
-                    
-                   };
-                        GameSeed gameSeed = new GameSeed(seed);
-                        
+
+                           };
+                            GameSeed gameSeed = new GameSeed(seed);
+                            gameSeed.AliveCells().ToString();
+
                             while (gameSeed.AliveCells() > 0 && runs++ < MaxRuns)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Iteration {0}", gameSeed.CountIteration);
-                            gameSeed.NewCellGeneration();
-                            gameSeed.DrawField();
-                            Console.WriteLine();
-
-                            if (gameSeed.AliveCells() == 0)
                             {
-                                Console.WriteLine("Everyone is died!");
-                                Console.ReadLine();
-                            }
-                            else
-                            {
-                                Console.ReadLine();
-                            }
-                        }
-                        break;
+                                Console.Clear();
+                                Console.WriteLine("Iteration {0}", gameSeed.CountIteration);
+                                gameSeed.NewCellGeneration();
+                                gameSeed.DrawField();
+                                Console.WriteLine();
 
-                    case ConsoleKey.R:
-                        while (true)
-                        {
-                            Console.Clear();
-                            try
-                            {
-                                Console.WriteLine("Please, insert the size of game and number of cells. \t");
-                                Console.Write("The number of rows:\t ");
-                                int row = int.Parse(Console.ReadLine());
-                                Console.Write("The number of columns:\t ");
-                                int column = int.Parse(Console.ReadLine());
-
-                                seed = new int[row, column];
-                                Random random = new Random();
-
-                                for (int y = 0; y < seed.GetLength(0); y++) // Solid principles, the code of random numbers generating.
+                                if (gameSeed.AliveCells() == 0)
                                 {
-                                    for (int x = 0; x < seed.GetLength(1); x++)
-                                    {
-                                        seed[y, x] = random.Next(2); // 0- dead cell, 1- alive
-                                    }
+                                    Console.WriteLine("Everyone is died!");
+                                    Console.ReadLine();
                                 }
-                                for (int y = 0; y < seed.GetLength(0); y++) // The part which input the array elements.
+                                else
                                 {
-                                    for (int x = 0; x < seed.GetLength(1); x++)
-                                    {
-
-                                    }
-                                    Console.WriteLine();
-                                }
-
-                                GameSeed gameSeedRandom = new GameSeed(seed);
-
-                                while (gameSeedRandom.AliveCells() > 0 && runs++ < MaxRuns)
-                                {
-                                    Console.Clear();
-                                    Console.Title= gameSeedRandom.CountIteration.ToString("Iteration {0}");
-                                    Console.SetCursorPosition(0, 0);
-                                    gameSeedRandom.NewCellGeneration();
-                                    gameSeedRandom.DrawField();
-                                    Console.WriteLine();
-
-                                    char stop;
-
-                                    if (gameSeedRandom.AliveCells() == 0)
-                                    {
-                                        Console.WriteLine("Everyone is died!");
-                                        Console.ReadLine();
-                                    }
-                                    else
-                                    {
-                                        Console.ReadLine();
-                                    }
+                                    Console.ReadLine();
                                 }
                             }
-                            catch (Exception)
-                            {                                   
+                            break;
+
+                        case ConsoleKey.R:
+                            while (true)
+                            {
+                                Console.Clear();
+                                try
+                                {
+                                    Console.WriteLine("Please, insert the size of game and number of cells. \t");
+                                    Console.Write("The number of rows:\t ");
+                                    int row = int.Parse(Console.ReadLine());
+                                    Console.Write("The number of columns:\t ");
+                                    int column = int.Parse(Console.ReadLine());
+
+                                    seed = new int[row, column];
+                                    Random random = new Random();
+
+                                    for (int y = 0; y < seed.GetLength(0); y++) // Solid principles, the code of random numbers generating.
+                                    {
+                                        for (int x = 0; x < seed.GetLength(1); x++)
+                                        {
+                                            seed[y, x] = random.Next(2); // 0- dead cell, 1- alive
+                                        }
+                                    }
+                                    for (int y = 0; y < seed.GetLength(0); y++) // The part which input the array elements.
+                                    {
+                                        for (int x = 0; x < seed.GetLength(1); x++)
+                                        {
+
+                                        }
+                                        Console.WriteLine();
+                                    }
+
+                                    GameSeed gameSeedRandom = new GameSeed(seed);
+                                    gameSeedRandom.AliveCells().ToString();
+                                  
+                                    while (gameSeedRandom.AliveCells() > 0 && runs++ < MaxRuns)
+                                    {
+                                        Console.Clear();
+                                        Console.Title = gameSeedRandom.CountIteration.ToString("Iteration {0}");
+                                        Console.SetCursorPosition(0, 0);
+                                        gameSeedRandom.NewCellGeneration();
+                                        gameSeedRandom.DrawField();
+                                        Console.WriteLine();
+
+                                        string stop;
+
+                                        if (gameSeedRandom.AliveCells() == 0)
+                                        {
+                                            Console.WriteLine("Everyone is died!");
+                                            Console.ReadLine();
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("\nTo continue iteration, press the key 'Enter'." +
+                                                " \nTo stop iteration, press 's' key.");
+                                            stop = Console.ReadLine();
+                                            if (stop == "s")
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
                                     Console.WriteLine("Input incorrect data! Please, try again.");
                                     Console.ReadLine();
                                     continue;
+                                }
                             }
-                        }
-                    default:
-                        
-                        Console.WriteLine("\nYou input incorrect data! Please, try again."); 
-                        Console.ReadLine();
-                        break;
-                        }
+                        default:
+
+                            Console.WriteLine("\nYou input incorrect data! Please, try again.");
+                            Console.ReadLine();
+                            break;
+                    }
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine();                   
+                    Console.WriteLine();
                 }
             }
         }
