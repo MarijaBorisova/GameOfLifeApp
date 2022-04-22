@@ -3,14 +3,15 @@
     /// <summary>
     /// Logic of game.
     /// </summary>
+   [Serializable]
     public class GameSeed
     {
         // The place of cells in the field will be with x and y coordinates in array.
         // Current field of cells, playfield, an array in which all the cells will be counted
         // (alive or dead).
-        private int[,] gameField;
+        public int[,] gameField;
         // Current field will be changed after new requirements.
-        private int[,] changedField;
+        public int[,] changedField;
         // Field sizes.
         private int row;
         private int column;
@@ -52,17 +53,17 @@
         /// </summary>
         /// <returns> Alive cells number.</returns>
         public int AliveCells()
-        { 
+        {
             int count = 0;
             for (int y = 0; y < column; y++)
                 for (int x = 0; x < row; x++)
                     if (gameField[y, x] == 1)
                         count++;
-                        Console.WriteLine("Alive cells number: " + count);
-                        
+            Console.WriteLine("Alive cells number: " + count);
+
             // Adds one to the count if there is a cell that is alive and
             // returns the value.
-            return count;    
+            return count;
         }
 
         /// <summary>

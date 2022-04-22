@@ -1,4 +1,7 @@
-﻿namespace GameOfLifeConsole
+﻿using GameOfLifeConsole.Services;
+using System.IO;
+
+namespace GameOfLifeConsole
 {
     class Program
     {
@@ -35,7 +38,10 @@
                     {0,0,0,0,0}
 
                            };
+                            //in order to create the object, ctor of this class, path should be
+                            FileReadSave _fileReadSave = new FileReadSave();
                             GameSeed gameSeed = new GameSeed(seed);
+
                             gameSeed.AliveCells().ToString();
 
                             while (gameSeed.AliveCells() > 0 && runs++ < MaxRuns)
@@ -55,6 +61,17 @@
                                 {
                                     Console.ReadLine();
                                 }
+                            }
+                            _fileReadSave.SaveData(gameSeed);
+                            gameSeed = _fileReadSave.LoadData();
+                            try
+                            {
+
+                            }
+                            catch (Exception)
+                            {
+
+                                throw;
                             }
                             break;
 
@@ -88,37 +105,6 @@
                                         }
                                         Console.WriteLine();
                                     }
-
-                                    GameSeed gameSeedRandom = new GameSeed(seed);
-                                    gameSeedRandom.AliveCells().ToString();
-                                  
-                                    while (gameSeedRandom.AliveCells() > 0 && runs++ < MaxRuns)
-                                    {
-                                        Console.Clear();
-                                        Console.Title = gameSeedRandom.CountIteration.ToString("Iteration {0}");
-                                        Console.SetCursorPosition(0, 0);
-                                        gameSeedRandom.NewCellGeneration();
-                                        gameSeedRandom.DrawField();
-                                        Console.WriteLine();
-
-                                        string stop;
-
-                                        if (gameSeedRandom.AliveCells() == 0)
-                                        {
-                                            Console.WriteLine("Everyone is died!");
-                                            Console.ReadLine();
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("\nTo continue iteration, press the key 'Enter'." +
-                                                " \nTo stop iteration, press 's' key.");
-                                            stop = Console.ReadLine();
-                                            if (stop == "s")
-                                            {
-                                                break;
-                                            }
-                                        }
-                                    }
                                 }
                                 catch (Exception)
                                 {
@@ -126,14 +112,49 @@
                                     Console.ReadLine();
                                     continue;
                                 }
+
+                                //in order to create the object, ctor of this class, path should be
+                                FileReadSave _fileReadSaveR = new FileReadSave();
+                                GameSeed gameSeedRandom = new GameSeed(seed);
+                                gameSeedRandom.AliveCells().ToString();
+
+                                while (gameSeedRandom.AliveCells() > 0 && runs++ < MaxRuns)
+                                {
+                                    Console.Clear();
+                                    Console.Title = gameSeedRandom.CountIteration.ToString("Iteration {0}");
+                                    Console.SetCursorPosition(0, 0);
+                                    gameSeedRandom.NewCellGeneration();
+                                    gameSeedRandom.DrawField();
+                                    Console.WriteLine();
+
+                                    string stop;
+
+                                    if (gameSeedRandom.AliveCells() == 0)
+                                    {
+                                        Console.WriteLine("Everyone is died!");
+                                        Console.ReadLine();
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\nTo continue iteration, press the key 'Enter'." +
+                                            " \nTo stop iteration, press 's' key.");
+                                        stop = Console.ReadLine();
+                                        if (stop == "s")
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                _fileReadSaveR.SaveData(gameSeedRandom);
+                                gameSeed = _fileReadSaveR.LoadData();        
                             }
                         default:
 
                             Console.WriteLine("\nYou input incorrect data! Please, try again.");
                             Console.ReadLine();
                             break;
+                        }
                     }
-                }
                 catch (Exception)
                 {
                     Console.WriteLine();
