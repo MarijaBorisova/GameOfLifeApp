@@ -1,31 +1,34 @@
-﻿
-using GameOfLifeConsole.Services;
+﻿using GameOfLifeConsole.Services;
 
 namespace GameOfLifeConsole
 {
     public class Game
     {
+        private GameLogic gameLogic;
+        FileReadSave _fileReadSave = new FileReadSave();
+        uint MaxRuns = 20;
+        int runs = 0;
+        int[,] seed = null;
+        public Game()
+        {
+            gameLogic = new GameLogic();
+        }
         public void Run()
         {
             Console.CursorVisible = false;
             Console.SetCursorPosition(0, 0);
-            uint MaxRuns = 20;
-            int runs = 0;
-
             while (true)
             {
                 Console.Clear();
-                int[,] seed = null;
-
-                Console.WriteLine("App Title: Game Of Life");
-                Console.WriteLine("Please, select if you would like to see the Blinker life circle (M) or " +
-                    "LifeCircle with Random numbers (R). \t");
-                Console.Write("Select : M or R:\t ");
-
-                ConsoleKey consoleKey = Console.ReadKey().Key;
-                switch (consoleKey)
+                
+                AppUserInterface.Start();
+                string key;
+                key=Console.ReadLine();
+                //ConsoleKey consoleKey = Console.ReadKey().Key;
+                switch (key)
                 {
-                    case ConsoleKey.M:
+                    case "M":
+                    //case ConsoleKey.M:
                         seed = new int[,]
                        {
                     {0,0,0,0,0},
@@ -36,20 +39,19 @@ namespace GameOfLifeConsole
 
                        };
                         // In order to create the object, ctor of this class, path should be.
-                        FileReadSave _fileReadSave = new FileReadSave();
-                        GameLogic gameSeed = new GameLogic(seed);
+                        GameLogic gameLogic = new GameLogic(seed);
 
-                        gameSeed.AliveCells().ToString();
+                        gameLogic.AliveCells().ToString();
 
-                        while (gameSeed.AliveCells() > 0 && runs++ < MaxRuns)
+                        while (gameLogic.AliveCells() > 0 && runs++ < MaxRuns)
                         {
                             Console.Clear();
-                            Console.WriteLine("Iteration {0}", gameSeed.CountIteration);
-                            gameSeed.NewCellGeneration();
-                            gameSeed.DrawField();
+                            Console.WriteLine("Iteration {0}", gameLogic.CountIteration);
+                            gameLogic.NewCellGeneration();
+                            gameLogic.DrawField();
                             Console.WriteLine();
 
-                            if (gameSeed.AliveCells() == 0)
+                            if (gameLogic.AliveCells() == 0)
                             {
                                 Console.WriteLine("Everyone is died!");
                                 Console.ReadLine();
@@ -59,98 +61,71 @@ namespace GameOfLifeConsole
                                 Console.ReadLine();
                             }
                         }
-                        _fileReadSave.SaveData(gameSeed);
-                        gameSeed = _fileReadSave.LoadData();
-                        try
-                        {
-
-                        }
-                        catch (Exception)
-                        {
-
-                            throw;
-                        }
+                        _fileReadSave.SaveData(gameLogic);
+                        gameLogic = _fileReadSave.LoadData();
                         break;
 
-                    case ConsoleKey.R:
-                        while (true)
-                        {
-                            Console.Clear();
-                            try
-                            {
-                                Console.WriteLine("Please, insert the size of game and number of cells. \t");
-                                Console.Write("The number of rows:\t ");
-                                int row = int.Parse(Console.ReadLine());
-                                Console.Write("The number of columns:\t ");
-                                int column = int.Parse(Console.ReadLine());
+                    case "R":
+                        GameValidation();
+                        break;
 
-                                seed = new int[row, column];
-                                Random random = new Random();
-
-                                for (int y = 0; y < seed.GetLength(0); y++) // Solid principles, the code of random numbers generating.
-                                {
-                                    for (int x = 0; x < seed.GetLength(1); x++)
-                                    {
-                                        seed[y, x] = random.Next(2); // 0- dead cell, 1- alive
-                                    }
-                                }
-                                for (int y = 0; y < seed.GetLength(0); y++) // The part which input the array elements.
-                                {
-                                    for (int x = 0; x < seed.GetLength(1); x++)
-                                    {
-
-                                    }
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                Console.WriteLine("Input incorrect data! Please, try again.");
-                                Console.ReadLine();
-                                continue;
-                            }
-
-                            // In order to create the object, ctor of this class, path should be.
-                            FileReadSave _fileReadSaveR = new FileReadSave();
-                            GameLogic gameSeedRandom = new GameLogic(seed);
-                            gameSeedRandom.AliveCells().ToString();
-
-                            while (gameSeedRandom.AliveCells() > 0 && runs++ < MaxRuns)
-                            {
-                                Console.Clear();
-                                Console.Title = gameSeedRandom.CountIteration.ToString("Iteration {0}");
-                                Console.SetCursorPosition(0, 0);
-                                gameSeedRandom.NewCellGeneration();
-                                gameSeedRandom.DrawField();
-                                Console.WriteLine();
-
-                                string stop;
-
-                                if (gameSeedRandom.AliveCells() == 0)
-                                {
-                                    Console.WriteLine("Everyone is died!");
-                                    Console.ReadLine();
-                                }
-                                else
-                                {
-                                    Console.WriteLine("\nTo continue iteration, press the key 'Enter'." +
-                                        " \nTo stop iteration, press 's' key.");
-                                    stop = Console.ReadLine();
-                                    if (stop == "s")
-                                    {
-                                        break;
-                                    }
-                                }
-                            }
-                            _fileReadSaveR.SaveData(gameSeedRandom);
-                            gameSeed = _fileReadSaveR.LoadData();
-                        }
                     default:
 
-                        Console.WriteLine("\nYou input incorrect data! Please, try again.");
+                        AppUserInterface.IncorrectDataInput();
                         Console.ReadLine();
                         break;
                 }
+            }
+        }
+        public void GameValidation()
+        {
+            Console.CursorVisible = false;
+            Console.SetCursorPosition(0, 0);
+            while (true)
+            {
+                Console.Clear();
+                try
+                {
+                    gameLogic.GetGameData();
+                }
+                catch (Exception)
+                {
+                    AppUserInterface.IncorrectDataInput();
+                    Console.ReadLine();
+                    continue;
+                }
+                gameLogic.AliveCells().ToString();
 
+                while (gameLogic.AliveCells() > 0 && runs++ < MaxRuns)
+                {
+                    Console.Clear();
+                    Console.Title = gameLogic.CountIteration.ToString("Iteration {0}");
+                    Console.SetCursorPosition(0, 0);
+                    gameLogic.NewCellGeneration();
+                    gameLogic.DrawField();
+                    Console.WriteLine();
+
+
+                    string stop;
+                    if (gameLogic.AliveCells() == 0)
+                    {
+                        Console.WriteLine("Everyone is died!");
+                        Console.ReadLine();
+                    }
+                    else
+                    { 
+                        //AppUserInterface.StopIteration();
+                        Console.WriteLine("\nTo continue iteration, press the key 'Enter'." +
+                            " \nTo stop iteration, press 's' key.");
+                        stop = Console.ReadLine();
+                        if (stop == "s")
+                        {
+                            break;
+                        }
+                    }    
+                }
+                _fileReadSave.SaveData(gameLogic);
+                gameLogic = _fileReadSave.LoadData();
             }
         }
 

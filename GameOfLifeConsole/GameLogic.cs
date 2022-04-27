@@ -3,7 +3,7 @@
     /// <summary>
     /// Logic of game.
     /// </summary>
-   [Serializable]
+    [Serializable]
     public class GameLogic
     {
         // The place of cells in the field will be with x and y coordinates in array.
@@ -13,15 +13,16 @@
         // Current field will be changed after new requirements.
         public int[,] changedField;
         // Field sizes.
-        private int row;
-        private int column;
+        private int rowsInField;
+        private int columnsInField;
         //Field, property to count the next cell generation.
         public int CountIteration { get; set; }
 
+        // Constructor to inialiaze Json convert from int to string.
         public GameLogic()
         {
             gameField = new int[0, 0];
-            changedField = new int[0, 0];   
+            changedField = new int[0, 0];
         }
 
         /// <summary>
@@ -31,11 +32,10 @@
         public GameLogic(int[,] newField)
         {
             gameField = (int[,])newField.Clone();
-            row = gameField.GetLength(1);
-            column = gameField.GetLength(0);
-
+            rowsInField = gameField.GetLength(1);
+            columnsInField = gameField.GetLength(0);
             // Creates an empty field to store the next changed field.
-            changedField = new int[column, row];
+            changedField = new int[columnsInField, rowsInField];
             CountIteration = 0;
         }
 
@@ -44,13 +44,33 @@
         /// </summary>
         public void DrawField()
         {
-            for (int y = 0; y < column; y++)
+            for (int y = 0; y < columnsInField; y++)
             {
-                for (int x = 0; x < row; x++)
-                    Console.Write(gameField[y, x] + " ");
+                for (int x = 0; x < rowsInField; x++)
+                    // Ternar operator in order to fulfill the array, if alive cell(1) - #, if no .
+                    Console.Write(gameField[y, x] == 1 ? " # " : " . ");
                 Console.WriteLine();
             }
             Console.WriteLine();
+        }
+
+        /// <summary>
+        /// The method to create and fulfill the random number array with the data of alive and dead cells.
+        /// </summary>
+        public void GetGameData()
+        {
+            rowsInField = AppUserInterface.GetValidatedNumber("Please, insert the number of rows: ", 5, 100);
+            columnsInField = AppUserInterface.GetValidatedNumber("Please, insert the quantity of columns: ", 5, 200);
+            gameField = new int[rowsInField, columnsInField];
+            Random random = new Random();
+
+            for (int row = 0; row < gameField.GetLength(0); row++) // Solid principles, the code of random numbers generating.
+            {
+                for (int column = 0; column < gameField.GetLength(1); column++)
+                {
+                    gameField[row, column] = random.Next(2); // 0- dead cell, 1- alive
+                }
+            }
         }
 
         /// <summary>
@@ -60,8 +80,8 @@
         public int AliveCells()
         {
             int count = 0;
-            for (int y = 0; y < column; y++)
-                for (int x = 0; x < row; x++)
+            for (int y = 0; y < columnsInField; y++)
+                for (int x = 0; x < rowsInField; x++)
                     if (gameField[y, x] == 1)
                         count++;
             Console.WriteLine("Alive cells number: " + count);
@@ -85,7 +105,7 @@
             {
                 for (int j = y - 1; j < y + 1; j++)
                 {
-                    if (!((i < 0 || j < 0) || (i >= column || j >= row)))
+                    if (!((i < 0 || j < 0) || (i >= columnsInField || j >= rowsInField)))
                     {
                         if (gameField[i, j] == 1)
                             count++;
@@ -100,13 +120,13 @@
         /// </summary>
         public void NewCellGeneration()
         {
-            int[,] newGameField = new int[column, row];
+            int[,] newGameField = new int[columnsInField, rowsInField];
             changedField = (int[,])gameField.Clone();
 
 
-            for (int y = 0; y < column; y++)
+            for (int y = 0; y < columnsInField; y++)
             {
-                for (int x = 0; x < row; x++)
+                for (int x = 0; x < rowsInField; x++)
                 {
                     int neighboursNumber = NeighboursCount(x, y);
                     // If the cell is dead and has three neighbours.
