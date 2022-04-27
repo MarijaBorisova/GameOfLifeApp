@@ -4,7 +4,7 @@
     /// Logic of game.
     /// </summary>
    [Serializable]
-    public class GameSeed
+    public class GameLogic
     {
         // The place of cells in the field will be with x and y coordinates in array.
         // Current field of cells, playfield, an array in which all the cells will be counted
@@ -18,14 +18,19 @@
         //Field, property to count the next cell generation.
         public int CountIteration { get; set; }
 
+        public GameLogic()
+        {
+            gameField = new int[0, 0];
+            changedField = new int[0, 0];   
+        }
+
         /// <summary>
         /// Const. creates the field of cells by cloning the array.
         /// </summary>
         /// <param name="newField"> The new array in which the new cell generation will be created. </param>
-        public GameSeed(int[,] newField)
+        public GameLogic(int[,] newField)
         {
             gameField = (int[,])newField.Clone();
-
             row = gameField.GetLength(1);
             column = gameField.GetLength(0);
 
