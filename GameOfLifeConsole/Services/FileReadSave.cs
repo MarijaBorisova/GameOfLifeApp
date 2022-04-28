@@ -8,14 +8,13 @@ namespace GameOfLifeConsole.Services
     class FileReadSave
     {
         // The path to which the data will be saved and restored. The variable.
-        // The path for FileReadSave object, ctor.
         private string Path = $"{Environment.CurrentDirectory}\\MyFile.json";
         private int[,] gameField;
 
         /// <summary>
         /// To read the data.
         /// </summary>
-        /// <returns> To create the object of GameSeed and return it.</returns>
+        /// <returns> To create the object of GameLogic and return it.</returns>
         public GameLogic LoadData()
         {
             // To load data from the file, need to check if the file exists.
@@ -36,24 +35,25 @@ namespace GameOfLifeConsole.Services
             using (var reader = File.OpenText(Path))
             {
                 string fileText = reader.ReadToEnd();
-                GameLogic gameSeed = JsonConvert.DeserializeObject<GameLogic>(fileText);
-                if (gameSeed == null)
+                GameLogic gameLogic = JsonConvert.DeserializeObject<GameLogic>(fileText);
+                if (gameLogic == null)
                 {
                     return new GameLogic(gameField);
                 }
-                return gameSeed;
+                return gameLogic;
             }
         }
 
         /// <summary>
         /// Save data on hard disc.
         /// </summary>
-        public void SaveData(GameLogic gameSeed)
+        /// <param name="gameLogic"> To save data of the object.</param>
+        public void SaveData(GameLogic gameLogic)
         {
             // Using object StreamWriter which create taking the method CreateText at File class.
             using (StreamWriter writer = File.CreateText(Path))
             {
-                string output = JsonConvert.SerializeObject(gameSeed);
+                string output = JsonConvert.SerializeObject(gameLogic);
                 writer.Write(output);
             }
         }
