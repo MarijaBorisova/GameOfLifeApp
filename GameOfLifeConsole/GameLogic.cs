@@ -10,19 +10,15 @@
         // Current field of cells, playfield, an array in which all the cells will be counted
         // (alive or dead).
         public int[,] gameField;
-        // Current field will be changed after new requirements.
-        public int[,] changedField;
-        // Field sizes.
         private int rowsInField;
         private int columnsInField;
         //Field, property to count the next cell generation.
-        public int CountIteration { get; set; }
+        public int countIteration { get; set; }
 
         // Constructor to inialiaze Json convert from int to string.
         public GameLogic()
         {
             gameField = new int[0, 0];
-            changedField = new int[0, 0];
         }
 
         /// <summary>
@@ -32,11 +28,9 @@
         public GameLogic(int[,] newField)
         {
             gameField = (int[,])newField.Clone();
-            rowsInField = gameField.GetLength(1);
-            columnsInField = gameField.GetLength(0);
-            // Creates an empty field to store the next changed field.
-            changedField = new int[columnsInField, rowsInField];
-            CountIteration = 0;
+            rowsInField = gameField.GetLength(0);
+            columnsInField = gameField.GetLength(1);
+            countIteration = 1;
         }
 
         /// <summary>
@@ -44,7 +38,7 @@
         /// </summary>
         public void DrawField()
         {
-            for (int y = 0; y < columnsInField; y++)
+            for (int y = 0; y < columnsInField; y++) 
             {
                 for (int x = 0; x < rowsInField; x++)
                     // Ternar operator in order to fulfill the array, if alive cell(1) - #, if no .
@@ -54,25 +48,7 @@
             Console.WriteLine();
         }
 
-        /// <summary>
-        /// The method to create and fulfill the random number array with the data of alive and dead cells.
-        /// </summary>
-        public void GetGameData()
-        {
-            rowsInField = AppUserInterface.GetValidatedNumber("Please, insert the number of rows: ", 5, 100);
-            columnsInField = AppUserInterface.GetValidatedNumber("Please, insert the quantity of columns: ", 5, 200);
-            gameField = new int[rowsInField, columnsInField];
-            Random random = new Random();
-
-            for (int row = 0; row < gameField.GetLength(0); row++) // Solid principles, the code of random numbers generating.
-            {
-                for (int column = 0; column < gameField.GetLength(1); column++)
-                {
-                    gameField[row, column] = random.Next(2); // 0- dead cell, 1- alive
-                }
-            }
-        }
-
+        
         /// <summary>
         /// To count the number of alive cells.
         /// </summary>
@@ -80,12 +56,18 @@
         public int AliveCells()
         {
             int count = 0;
-            for (int y = 0; y < columnsInField; y++)
+            for (int y = 0; y < columnsInField; y++) 
+            {
                 for (int x = 0; x < rowsInField; x++)
+                {
                     if (gameField[y, x] == 1)
+                    {
                         count++;
-            Console.WriteLine("Alive cells number: " + count);
+                    }
+                }
+            }
 
+            Console.WriteLine("Alive cells number: " + count);
             // Adds one to the count if there is a cell that is alive and
             // returns the value.
             return count;
@@ -94,24 +76,24 @@
         /// <summary>
         /// Passes the coordinates of the cell and count the number of neighbours the cell has.
         /// </summary>
-        /// <param name="x"> The current cell x coordinate. </param>
-        /// <param name="y"> The current cell y coordinate. </param>
+        /// <param name="currentRow"> The current cell x coordinate. </param>
+        /// <param name="currentColumn"> The current cell y coordinate. </param>
         /// <returns> Alive number of neighbours. </returns>
-        public int NeighboursCount(int x, int y)
+        public int NeighboursCount(int currentColumn, int currentRow)
         {
             int count = 0;
 
-            for (int i = x - 1; i < x + 1; i++)
+            for (int column = currentColumn - 1; column < currentColumn + 1; column++)
             {
-                for (int j = y - 1; j < y + 1; j++)
+                for (int row = currentRow - 1; row < currentRow + 1; row++)
                 {
-                    if (!((i < 0 || j < 0) || (i >= columnsInField || j >= rowsInField)))
-                    {
-                        if (gameField[i, j] == 1)
-                            count++;
-                    }
+                    int actualrow = (row + gameField.GetLength(0)) % gameField.GetLength(0);
+                    int actualColumn = (column + gameField.GetLength(1)) % gameField.GetLength(1);
+                    count++;
                 }
             }
+
+            count -= gameField[currentColumn, currentRow];
             return count;
         }
 
@@ -121,28 +103,37 @@
         public void NewCellGeneration()
         {
             int[,] newGameField = new int[columnsInField, rowsInField];
-            changedField = (int[,])gameField.Clone();
-
-
             for (int y = 0; y < columnsInField; y++)
             {
                 for (int x = 0; x < rowsInField; x++)
                 {
                     int neighboursNumber = NeighboursCount(x, y);
-                    // If the cell is dead and has three neighbours.
-                    // If it does a new cell is born. 
-                    if (gameField[y, x] == 0 && neighboursNumber == 3)
-                        newGameField[y, x] = 1;
-                    else if (gameField[y, x] == 1 &&
-                           (neighboursNumber == 2 || neighboursNumber == 3))// If the cell is alive and it has two or three neighbours.
-                                                                            // If that is true the cell is alive.
-                        newGameField[y, x] = 1;
-                    else if (gameField[y, x] == 1 && (neighboursNumber < 2 || neighboursNumber > 3))
+                    // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+                    if (gameField[y, x] == 1 && neighboursNumber <= 2)
+                    {
                         newGameField[y, x] = 0;
+                    }
+                    //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+                    else if (gameField[y, x] == 0 && neighboursNumber == 3)
+                    {
+                        newGameField[y, x] = 1;
+                    }
+                    //Any live cell with two or three live neighbours lives on to the next generation.
+                    else if (gameField[y, x] == 1 &&
+                           (neighboursNumber == 2 || neighboursNumber == 3))
+                    { 
+                        newGameField[y, x] = 1;
+                    }
+                    //Any live cell with more than three live neighbours dies, as if by overpopulation.
+                    else if (gameField[y, x] == 1 && neighboursNumber == 4 || neighboursNumber > 4)
+                    {
+                        newGameField[y, x] = 0;
+                    }
                 }
             }
+
             gameField = (int[,])newGameField.Clone();
-            CountIteration++;
+            countIteration++;
         }
     }
 }

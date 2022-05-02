@@ -18,7 +18,7 @@ namespace GameOfLifeConsole.Services
         public GameLogic LoadData()
         {
             // To load data from the file, need to check if the file exists.
-            var doesFileExists = File.Exists(Path);
+            bool doesFileExists = File.Exists(Path);
             if (!doesFileExists)
             {
                 using (var fileStream = new FileStream("MyFile.json", FileMode.CreateNew))

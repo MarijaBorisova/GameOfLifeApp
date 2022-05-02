@@ -22,14 +22,14 @@ namespace GameOfLifeConsole
             {
                 Console.WriteLine(promptMessage);
                 string value = Console.ReadLine();
-                if (int.TryParse(value, out int result))
+                if (int.TryParse(value, out int userInput))
                 {
-                    return result;
+                    return userInput;
                 }
                 else
                 {
-                    Console.WriteLine("Incorrect input data, please, try again and enter the number.");
-                    Console.WriteLine("Press any key to continue.");
+                    Console.WriteLine(Repository.incorrectDataInputMessage);
+                    Console.WriteLine(Repository.pressAnyKeyMessage);
                     Console.ReadKey();
                 }
             }
@@ -49,8 +49,8 @@ namespace GameOfLifeConsole
                 int number = RequestNumberFromUser(promptMessage);
                 if (number < minValue || number > maxValue)
                 {
-                    Console.WriteLine("Number is out of range. Please, input correct value.");
-                    Console.WriteLine("Press any key to continue.");
+                    Console.WriteLine(Repository.numberIsOutOfRange);
+                    Console.WriteLine(Repository.pressAnyKeyMessage);
                     Console.ReadKey();
                 }
                 else
@@ -65,22 +65,7 @@ namespace GameOfLifeConsole
         /// </summary>
         public static void IncorrectDataInput()
         {
-            Console.WriteLine("\nInput incorrect data! Please, try again.");
-        }
-
-        public static void StopIteration()
-        {
-            
-                string stop;
-                Console.WriteLine("\nTo continue iteration, press the key 'Enter'." +
-                                " \nTo stop iteration, press 's' key.");
-                stop = Console.ReadLine();
-                if (stop == "s")
-                {
-                
-                }
-                   
-            
+            Console.WriteLine(Repository.incorrectDataInputMessage);
         }
     }
 }
