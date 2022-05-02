@@ -59,27 +59,6 @@ namespace GameOfLifeConsole
                     }
                     else
                     {
-                        //Console.WriteLine(Repository.stopOrContinue);
-                        //Console.WriteLine(Repository.saveData);
-
-                        //switch (Console.ReadLine())
-                        //{
-                        //    case "e":
-                        //        {
-
-                        //            break;
-                        //        }
-                        //    case "s":
-                        //        {
-                        //            _fileReadSave.SaveData(gameLogic);
-                        //            gameLogic = _fileReadSave.LoadData();
-                        //            continue;
-                        //        }
-
-                        //    default:
-
-                        //        break;
-                        //}
                         Console.WriteLine(Repository.saveData);
                         save = Console.ReadLine();
                         if (save == "s")
@@ -100,24 +79,23 @@ namespace GameOfLifeConsole
 
         private void StartGameManually()
         {
-            gameLogic = new GameLogic(FieldGeneration.GenerateBlinker());
+            gameLogic = new GameLogic(FieldGeneration.GetGlider());
             gameLogic.AliveCells().ToString();
-
         }
 
         private void StartGameRandom()
         {
-                Console.Clear();
-                try
-                {
-                    gameLogic = new GameLogic(FieldGeneration.GenerateRandom());
-                }
-                catch (Exception)
-                {
-                    AppUserInterface.IncorrectDataInput();
-                    Console.ReadLine();
-                }
-                gameLogic.AliveCells().ToString();  
+            Console.Clear();
+            try
+            {
+                gameLogic = new GameLogic(FieldGeneration.GenerateRandom());
+            }
+            catch (Exception)
+            {
+                AppUserInterface.IncorrectDataInput();
+                Console.ReadLine();
+            }
+            gameLogic.AliveCells().ToString();
         }
     }
 }

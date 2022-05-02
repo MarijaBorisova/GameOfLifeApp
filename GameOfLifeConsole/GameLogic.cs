@@ -12,6 +12,7 @@
         public int[,] gameField;
         private int rowsInField;
         private int columnsInField;
+
         //Field, property to count the next cell generation.
         public int countIteration { get; set; }
 
@@ -27,9 +28,9 @@
         /// <param name="newField"> The new array in which the new cell generation will be created. </param>
         public GameLogic(int[,] newField)
         {
-            gameField = (int[,])newField.Clone();
-            rowsInField = gameField.GetLength(0);
-            columnsInField = gameField.GetLength(1);
+            gameField = newField;
+            rowsInField = gameField.GetLength(1);
+            columnsInField = gameField.GetLength(0);
             countIteration = 1;
         }
 
@@ -38,17 +39,18 @@
         /// </summary>
         public void DrawField()
         {
-            for (int y = 0; y < columnsInField; y++) 
+            for (int column = 0; column < columnsInField; column++)
             {
-                for (int x = 0; x < rowsInField; x++)
+                for (int row = 0; row < rowsInField; row++)
+                {
                     // Ternar operator in order to fulfill the array, if alive cell(1) - #, if no .
-                    Console.Write(gameField[y, x] == 1 ? " # " : " . ");
+                    Console.Write(gameField[column, row] == 1 ? " # " : " . ");
+                }
                 Console.WriteLine();
             }
             Console.WriteLine();
         }
 
-        
         /// <summary>
         /// To count the number of alive cells.
         /// </summary>
@@ -56,18 +58,15 @@
         public int AliveCells()
         {
             int count = 0;
-            for (int y = 0; y < columnsInField; y++) 
+            for (int column = 0; column < columnsInField; column++)
             {
-                for (int x = 0; x < rowsInField; x++)
+                for (int row = 0; row < rowsInField; row++)
                 {
-                    if (gameField[y, x] == 1)
-                    {
-                        count++;
-                    }
+                    count += gameField[row, column];
                 }
             }
-
             Console.WriteLine("Alive cells number: " + count);
+
             // Adds one to the count if there is a cell that is alive and
             // returns the value.
             return count;
@@ -79,22 +78,20 @@
         /// <param name="currentRow"> The current cell x coordinate. </param>
         /// <param name="currentColumn"> The current cell y coordinate. </param>
         /// <returns> Alive number of neighbours. </returns>
-        public int NeighboursCount(int currentColumn, int currentRow)
+        public int NeighboursCount(int currentRow, int currentColumn)
         {
             int count = 0;
-
-            for (int column = currentColumn - 1; column < currentColumn + 1; column++)
+            for (int column = currentColumn - 1; column <= currentColumn + 1; column++)
             {
-                for (int row = currentRow - 1; row < currentRow + 1; row++)
+                for (int row = currentRow - 1; row <= currentRow + 1; row++)
                 {
-                    int actualrow = (row + gameField.GetLength(0)) % gameField.GetLength(0);
-                    int actualColumn = (column + gameField.GetLength(1)) % gameField.GetLength(1);
-                    count++;
+                    int actualRow = (row + gameField.GetLength(1)) % gameField.GetLength(1);
+                    int actualColumn = (column + gameField.GetLength(0)) % gameField.GetLength(0);
+                    count += gameField[actualColumn, actualRow];
                 }
             }
 
-            count -= gameField[currentColumn, currentRow];
-            return count;
+            return count - gameField[currentColumn, currentRow];
         }
 
         /// <summary>
@@ -103,37 +100,35 @@
         public void NewCellGeneration()
         {
             int[,] newGameField = new int[columnsInField, rowsInField];
-            for (int y = 0; y < columnsInField; y++)
+            for (int column = 0; column < columnsInField; column++)
             {
-                for (int x = 0; x < rowsInField; x++)
+                for (int row = 0; row < rowsInField; row++)
                 {
-                    int neighboursNumber = NeighboursCount(x, y);
+                    int neighboursNumber = NeighboursCount(row, column);
                     // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-                    if (gameField[y, x] == 1 && neighboursNumber <= 2)
+                    if (gameField[column, row] == 1 && neighboursNumber <= 2)
                     {
-                        newGameField[y, x] = 0;
+                        newGameField[column, row] = 0;
                     }
+
                     //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-                    else if (gameField[y, x] == 0 && neighboursNumber == 3)
+                    if (gameField[column, row] == 0 && neighboursNumber == 3)
                     {
-                        newGameField[y, x] = 1;
+                        newGameField[column, row] = 1;
                     }
+
                     //Any live cell with two or three live neighbours lives on to the next generation.
-                    else if (gameField[y, x] == 1 &&
+                    else if (gameField[column, row] == 1 &&
                            (neighboursNumber == 2 || neighboursNumber == 3))
-                    { 
-                        newGameField[y, x] = 1;
-                    }
-                    //Any live cell with more than three live neighbours dies, as if by overpopulation.
-                    else if (gameField[y, x] == 1 && neighboursNumber == 4 || neighboursNumber > 4)
                     {
-                        newGameField[y, x] = 0;
+                        newGameField[column, row] = 1;
                     }
                 }
             }
 
-            gameField = (int[,])newGameField.Clone();
+            gameField = newGameField;
             countIteration++;
         }
     }
 }
+
