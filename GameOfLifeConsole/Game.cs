@@ -6,9 +6,8 @@ namespace GameOfLifeConsole
     {
         public GameLogic gameLogic;
         private FileReadSave _fileReadSave = new FileReadSave();
-        private uint MaxRuns = 20;
+        private uint MaxRuns = 50;
         private int runs = 0;
-        private int[,] seed = null;
         public Game()
         {
             gameLogic = new GameLogic();
@@ -40,7 +39,6 @@ namespace GameOfLifeConsole
                         }
                         break;
                 }
-                //while (gameLogic.AliveCells() > 0 && runs++ < MaxRuns)
                 while (gameLogic.AliveCells() > 0 && runs++ < MaxRuns)
                 {
                     string exit;
@@ -50,27 +48,31 @@ namespace GameOfLifeConsole
                     Console.SetCursorPosition(0, 0);
                     gameLogic.NewCellGeneration();
                     gameLogic.DrawField();
+                    Thread.Sleep(1000);
                     Console.WriteLine();
 
-                    if (gameLogic.AliveCells() == 0)
+                    if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Enter)
                     {
-                        Console.WriteLine(Repository.cellsDied);
-                        Console.ReadLine();
-                    }
-                    else
-                    {
-                        Console.WriteLine(Repository.saveData);
-                        save = Console.ReadLine();
-                        if (save == "s")
+                        if (gameLogic.AliveCells() == 0)
                         {
-                            _fileReadSave.SaveData(gameLogic);
-                            gameLogic = _fileReadSave.LoadData();
+                            Console.WriteLine(Repository.cellsDied);
+                            Console.ReadLine();
                         }
-                        Console.WriteLine(Repository.stopOrContinue);
-                        exit = Console.ReadLine();
-                        if (exit == "e")
+                        else
                         {
-                            break;
+                            Console.WriteLine(Repository.saveData);
+                            save = Console.ReadLine();
+                            if (save == "s")
+                            {
+                                _fileReadSave.SaveData(gameLogic);
+                                gameLogic = _fileReadSave.LoadData();
+                            }
+                            Console.WriteLine(Repository.stopOrContinue);
+                            exit = Console.ReadLine();
+                            if (exit == "e")
+                            {
+                                break;
+                            }
                         }
                     }
                 }
