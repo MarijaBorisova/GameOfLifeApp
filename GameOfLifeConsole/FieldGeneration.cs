@@ -7,6 +7,10 @@ namespace GameOfLifeConsole
     /// </summary>
     public static class FieldGeneration
     {
+        /// <summary>
+        /// The method to initialize the array as in Glider order.
+        /// </summary>
+        /// <returns> The array as Glider order.</returns>
         public static int[,] GetGlider()
         {
             return new int[,]
@@ -19,6 +23,10 @@ namespace GameOfLifeConsole
             };
         }
 
+        /// <summary>
+        /// The method to initialize the array field by the random order.
+        /// </summary>
+        /// <returns> The array fulfilled by symbols randomly.</returns>
         public static int[,] GenerateRandom()
         {
             var rowsInField = AppUserInterface.GetValidatedNumber("Please, insert the number of rows: ", 5, 100);
@@ -26,9 +34,9 @@ namespace GameOfLifeConsole
             var gameField = new int[columnsInField, rowsInField];
             Random random = new Random();
 
-            for (int row = 0; row < gameField.GetLength(0); row++) // Solid principles, the code of random numbers generating.
+            for (int row = 0; row < gameField.GetLength(1); row++) // Solid principles, the code of random numbers generating.
             {
-                for (int column = 0; column < gameField.GetLength(1); column++)
+                for (int column = 0; column < gameField.GetLength(0); column++)
                 {
                     gameField[column, row] = random.Next(2); // 0- dead cell, 1- alive
                 }

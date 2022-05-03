@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GameOfLifeConsole
 {
+    /// <summary>
+    /// Class for literal text.
+    /// </summary>
     public static class Repository
     {
         public const string incorrectDataInputMessage = "Incorrect input data, please," +

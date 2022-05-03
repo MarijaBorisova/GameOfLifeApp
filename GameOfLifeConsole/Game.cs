@@ -2,6 +2,9 @@
 
 namespace GameOfLifeConsole
 {
+    /// <summary>
+    /// Class of Implementation of GameLogic.
+    /// </summary>
     public class Game
     {
         public GameLogic gameLogic;
@@ -12,6 +15,10 @@ namespace GameOfLifeConsole
         {
             gameLogic = new GameLogic();
         }
+
+        /// <summary>
+        /// The method for running the game.
+        /// </summary>
         public void Run()
         {
             Console.CursorVisible = false;
@@ -79,12 +86,18 @@ namespace GameOfLifeConsole
             }
         }
 
+        /// <summary>
+        /// The method in order to print fulfilled data in array manually.
+        /// </summary>
         private void StartGameManually()
         {
             gameLogic = new GameLogic(FieldGeneration.GetGlider());
             gameLogic.AliveCells().ToString();
         }
 
+        /// <summary>
+        /// The method to print fulfilled data in array randomly.
+        /// </summary>
         private void StartGameRandom()
         {
             Console.Clear();
