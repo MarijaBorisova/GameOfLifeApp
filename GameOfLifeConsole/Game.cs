@@ -41,7 +41,7 @@ namespace GameOfLifeConsole
                         break;
                 }
                 //while (gameLogic.AliveCells() > 0 && runs++ < MaxRuns)
-                while (gameLogic.AliveCells() > 0)
+                while (gameLogic.AliveCells() > 0 && runs++ < MaxRuns)
                 {
                     string exit;
                     string save;

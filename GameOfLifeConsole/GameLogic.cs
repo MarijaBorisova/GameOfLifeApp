@@ -10,8 +10,8 @@
         // Current field of cells, playfield, an array in which all the cells will be counted
         // (alive or dead).
         public int[,] gameField;
-        private int rowsInField;
-        private int columnsInField;
+        public int rowsInField;
+        public int columnsInField;
 
         //Field, property to count the next cell generation.
         public int countIteration { get; set; }
@@ -62,7 +62,7 @@
             {
                 for (int row = 0; row < rowsInField; row++)
                 {
-                    count += gameField[row, column];
+                    count += gameField[column, row];
                 }
             }
             Console.WriteLine("Alive cells number: " + count);
