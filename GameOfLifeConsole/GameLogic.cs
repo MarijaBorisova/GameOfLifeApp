@@ -106,7 +106,7 @@
                 {
                     int neighboursNumber = NeighboursCount(row, column);
                     // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-                    if (gameField[column, row] == 1 && neighboursNumber <= 2)
+                    if (gameField[column, row] == 1 && neighboursNumber < 2)
                     {
                         newGameField[column, row] = 0;
                     }
