@@ -1,7 +1,4 @@
-﻿using GameOfLifeConsole.Services;
-using System.IO;
-
-namespace GameOfLifeConsole
+﻿namespace GameOfLifeConsole
 {
     class Program
     {

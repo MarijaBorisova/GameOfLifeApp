@@ -8,8 +8,8 @@ namespace GameOfLifeConsole.Services
     class FileReadSave
     {
         // The path to which the data will be saved and restored. The variable.
-        private string Path = $"{Environment.CurrentDirectory}\\MyFile.json";
-        private int[,] gameField;
+        private string _path = $"{Environment.CurrentDirectory}\\MyFile.json";
+        private int[,] _gameField;
 
         /// <summary>
         /// To read the data.
@@ -18,27 +18,27 @@ namespace GameOfLifeConsole.Services
         public GameLogic LoadData()
         {
             // To load data from the file, need to check if the file exists.
-            bool doesFileExists = File.Exists(Path);
+            bool doesFileExists = File.Exists(_path);
             if (!doesFileExists)
             {
                 using (var fileStream = new FileStream("MyFile.json", FileMode.CreateNew))
                 {
                     // If the file/path does not exist, to create a file
                     // and free the resourses with Dispose method.
-                    File.Create(Path).Dispose(); 
+                    File.Create(_path).Dispose();
 
-                    return new GameLogic(gameField); 
+                    return new GameLogic(_gameField);
                 }
             }
 
             // If file exists, the logic of loading/reading below.
-            using (var reader = File.OpenText(Path))
+            using (var reader = File.OpenText(_path))
             {
                 string fileText = reader.ReadToEnd();
                 GameLogic gameLogic = JsonConvert.DeserializeObject<GameLogic>(fileText);
                 if (gameLogic == null)
                 {
-                    return new GameLogic(gameField);
+                    return new GameLogic(_gameField);
                 }
                 return gameLogic;
             }
@@ -51,7 +51,7 @@ namespace GameOfLifeConsole.Services
         public void SaveData(GameLogic gameLogic)
         {
             // Using object StreamWriter which create taking the method CreateText at File class.
-            using (StreamWriter writer = File.CreateText(Path))
+            using (StreamWriter writer = File.CreateText(_path))
             {
                 string output = JsonConvert.SerializeObject(gameLogic);
                 writer.Write(output);

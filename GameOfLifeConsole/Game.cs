@@ -9,8 +9,8 @@ namespace GameOfLifeConsole
     {
         public GameLogic gameLogic;
         private FileReadSave _fileReadSave = new FileReadSave();
-        private uint MaxRuns = 50;
-        private int runs = 0;
+        private uint _maxRuns = 50;
+        private int _runs = 0;
         public Game()
         {
             gameLogic = new GameLogic();
@@ -46,10 +46,8 @@ namespace GameOfLifeConsole
                         }
                         break;
                 }
-                while (gameLogic.AliveCells() > 0 && runs++ < MaxRuns)
+                while (gameLogic.AliveCells() > 0 && _runs++ < _maxRuns)
                 {
-                    string exit;
-                    string save;
                     Console.Clear();
                     Console.Title = gameLogic.countIteration.ToString("Iteration {0}");
                     Console.SetCursorPosition(0, 0);
@@ -62,20 +60,20 @@ namespace GameOfLifeConsole
                     {
                         if (gameLogic.AliveCells() == 0)
                         {
-                            Console.WriteLine(Repository.cellsDied);
+                            Console.WriteLine(Repository.CellsDied);
                             Console.ReadLine();
                         }
                         else
                         {
-                            Console.WriteLine(Repository.saveData);
-                            save = Console.ReadLine();
+                            Console.WriteLine(Repository.SaveData);
+                            string save = Console.ReadLine();
                             if (save == "s")
                             {
                                 _fileReadSave.SaveData(gameLogic);
                                 gameLogic = _fileReadSave.LoadData();
                             }
-                            Console.WriteLine(Repository.stopOrContinue);
-                            exit = Console.ReadLine();
+                            Console.WriteLine(Repository.StopOrContinue);
+                            string exit = Console.ReadLine();
                             if (exit == "e")
                             {
                                 break;

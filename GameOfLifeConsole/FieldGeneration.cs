@@ -1,6 +1,4 @@
-﻿using GameOfLifeConsole.Services;
-
-namespace GameOfLifeConsole
+﻿namespace GameOfLifeConsole
 {
     /// <summary>
     /// Class for the methods to generate Manual or Random fields.
@@ -34,11 +32,11 @@ namespace GameOfLifeConsole
             var gameField = new int[columnsInField, rowsInField];
             Random random = new Random();
 
-            for (int row = 0; row < gameField.GetLength(1); row++) // Solid principles, the code of random numbers generating.
+            for (int row = 0; row < gameField.GetLength(1); row++)
             {
                 for (int column = 0; column < gameField.GetLength(0); column++)
                 {
-                    gameField[column, row] = random.Next(2); // 0- dead cell, 1- alive
+                    gameField[column, row] = random.Next(2);
                 }
             }
 
