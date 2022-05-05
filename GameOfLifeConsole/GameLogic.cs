@@ -65,7 +65,7 @@
                     count += gameField[column, row];
                 }
             }
-            Console.WriteLine("Alive cells number: " + count);
+            //Console.WriteLine("Alive cells number: " + count);
 
             // Adds one to the count if there is a cell that is alive and
             // returns the value.

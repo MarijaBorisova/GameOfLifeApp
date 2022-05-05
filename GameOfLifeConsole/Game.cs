@@ -49,7 +49,8 @@ namespace GameOfLifeConsole
                 while (gameLogic.AliveCells() > 0 && _runs++ < _maxRuns)
                 {
                     Console.Clear();
-                    Console.Title = gameLogic.countIteration.ToString("Iteration {0}");
+                    Console.Title = gameLogic.countIteration.ToString("Iteration: {0}")
+                        + gameLogic.AliveCells().ToString("   Alive cells number: {0}");
                     Console.SetCursorPosition(0, 0);
                     gameLogic.NewCellGeneration();
                     gameLogic.DrawField();
