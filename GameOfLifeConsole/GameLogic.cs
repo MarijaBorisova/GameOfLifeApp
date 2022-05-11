@@ -35,9 +35,31 @@
         }
 
         /// <summary>
-        /// Print the current field on console.
+        /// The method to initialize the array field by the random order.
         /// </summary>
-        public void DrawField()
+        /// <returns> The array fulfilled by symbols randomly.</returns>
+        public int[,] GenerateRandomFake()
+        {
+            var rowsInField = 0;
+            var columnsInField = 0;
+            var gameField = new int[columnsInField, rowsInField];
+            Random random = new Random();
+
+            for (int row = 0; row < gameField.GetLength(0); row++)
+            {
+                for (int column = 0; column < gameField.GetLength(1); column++)
+                {
+                    gameField[column, row] = random.Next(2);
+                }
+            }
+
+            return gameField;
+        }
+
+    /// <summary>
+    /// Print the current field on console.
+    /// </summary>
+    public void DrawField()
         {
             for (int column = 0; column < columnsInField; column++)
             {
@@ -100,33 +122,41 @@
         public void NewCellGeneration()
         {
             int[,] newGameField = new int[columnsInField, rowsInField];
-            for (int column = 0; column < columnsInField; column++)
-            {
-                for (int row = 0; row < rowsInField; row++)
-                {
-                    int neighboursNumber = NeighboursAliveCount(row, column);
-                    // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-                    if (gameField[column, row] == 1 && neighboursNumber < 2)
-                    {
-                        newGameField[column, row] = 0;
-                    }
+            Parallel.For(0, columnsInField, column =>
+             {
+                 Parallel.For(0, rowsInField, row =>
+                  {
+                      //for (int column = 0; column < columnsInField; column++)
+                      //{
+                      //    for (int row = 0; row < rowsInField; row++)
+                      //    {
+                      int neighboursNumber = NeighboursAliveCount(row, column);
+                      // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+                      if (gameField[column, row] == 1 && neighboursNumber < 2)
+                      {
+                          newGameField[column, row] = 0;
+                      }
 
-                    //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-                    if (gameField[column, row] == 0 && neighboursNumber == 3)
-                    {
-                        newGameField[column, row] = 1;
-                    }
+                      //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+                      if (gameField[column, row] == 0 && neighboursNumber == 3)
+                      {
+                          newGameField[column, row] = 1;
+                      }
 
-                    //Any live cell with two or three live neighbours lives on to the next generation.
-                    else if (gameField[column, row] == 1 &&
-                           (neighboursNumber == 2 || neighboursNumber == 3))
-                    {
-                        newGameField[column, row] = 1;
-                    }
-                }
-            }
+                      //Any live cell with two or three live neighbours lives on to the next generation.
+                      else if (gameField[column, row] == 1 &&
+                               (neighboursNumber == 2 || neighboursNumber == 3))
+                      {
+                          newGameField[column, row] = 1;
+                      }
+                  });
+
+
+             });
+            
 
             gameField = newGameField;
+            //newGameField = new GameLogic[];
             countIteration++;
         }
     }

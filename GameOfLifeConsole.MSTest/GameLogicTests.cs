@@ -44,27 +44,27 @@ namespace GameOfLifeConsole.MSTest
             Assert.IsNotNull(true);
         }
 
-        //[TestMethod]
-        //public void StartGameRandom_Dead_Or_Alive()
-        //{
-        //    Game randomCheck = new Game();
-        //    var rowsInField = 3;
-        //    var columnsInField = 3;
-        //    var gameField = new int[columnsInField, rowsInField];
-        //    int count = 0;
+        [TestMethod]
+        public void StartGameRandom_Dead_Or_Alive()
+        {
+            // Arrange
+            GameLogic randomCheck = new GameLogic();
+            int rowsInField = 3;
+            int columnsInField = 3;
+            int[,]gameField = new int[columnsInField, rowsInField];
 
+            // Act
+            for (int i = 0; i < gameField.GetLength(0); i++)
+            {
+                for (int j = 0; j < gameField.GetLength(1); j++)
+                {
+                    randomCheck.GenerateRandomFake();
+                }
+            }
 
-        //    // Act
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        randomCheck.StartGameRandom();
-
-        //        count++;
-        //    }
-
-        //    // Assert
-        //    Assert.AreNotEqual(0, count);
-        //}
+            // Assert
+            Assert.IsNotNull(true);
+        }
 
         [TestMethod]
         public void GameLogic_CheckTheFulfillment_OK()
@@ -123,7 +123,7 @@ namespace GameOfLifeConsole.MSTest
             gameLogic1.NewCellGeneration();
 
             // Assert
-            Assert.AreEqual(gameFieldExpected, gameLogic.NewCellGeneration);
+            Assert.AreEqual(gameFieldExpected, gameField);
         }
     }
 }
