@@ -54,8 +54,9 @@ namespace GameOfLifeConsole
                     Console.SetCursorPosition(0, 0);
                     gameLogic.NewCellGeneration();
                     gameLogic.DrawField();
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(1000);
                     Console.WriteLine();
+                    Console.ReadLine();
 
                     if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Enter)
                     {
@@ -97,7 +98,7 @@ namespace GameOfLifeConsole
         /// <summary>
         /// The method to print fulfilled data in array randomly.
         /// </summary>
-        private void StartGameRandom()
+        public void StartGameRandom()
         {
             Console.Clear();
             try

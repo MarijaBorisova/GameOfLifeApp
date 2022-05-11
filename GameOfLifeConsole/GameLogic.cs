@@ -78,7 +78,7 @@
         /// <param name="currentRow"> The current cell x coordinate. </param>
         /// <param name="currentColumn"> The current cell y coordinate. </param>
         /// <returns> Alive number of neighbours. </returns>
-        public int NeighboursCount(int currentRow, int currentColumn)
+        public int NeighboursAliveCount(int currentRow, int currentColumn)
         {
             int count = 0;
             for (int column = currentColumn - 1; column <= currentColumn + 1; column++)
@@ -104,7 +104,7 @@
             {
                 for (int row = 0; row < rowsInField; row++)
                 {
-                    int neighboursNumber = NeighboursCount(row, column);
+                    int neighboursNumber = NeighboursAliveCount(row, column);
                     // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
                     if (gameField[column, row] == 1 && neighboursNumber < 2)
                     {
