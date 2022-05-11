@@ -13,10 +13,12 @@
         {
             return new int[,]
             {
-                {0,0,0},
-                {1,1,0},
-                {0,0,0}
-               };
+                {0,0,0,0,0},
+                {0,0,0,0,0},
+                {0,1,1,1,0},
+                {0,0,0,1,0},
+                {0,0,1,0,0}
+            };
         }
 
         /// <summary>
@@ -30,9 +32,9 @@
             var gameField = new int[columnsInField, rowsInField];
             Random random = new Random();
 
-            for (int row = 0; row < gameField.GetLength(0); row++)
+            for (int row = 0; row < gameField.GetLength(1); row++)
             {
-                for (int column = 0; column < gameField.GetLength(1); column++)
+                for (int column = 0; column < gameField.GetLength(0); column++)
                 {
                     gameField[column, row] = random.Next(2);
                 }

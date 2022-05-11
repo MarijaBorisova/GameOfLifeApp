@@ -16,6 +16,7 @@
         public const string Title = "App Title: Game Of Life";
         public const string ManualOrRandomSelection = "Please, select if you would like to see the Blinker life circle (M) or " +
                 "LifeCircle with Random numbers (R). \t";
-        public const string Selection = "Select : M or R:\t ";
+        public const string Random1000GamesSelection = "To execute 1000 games in parallel, please, select (P).\t";
+        public const string Selection = "Select : M or R: or P:\t ";
     }
 }

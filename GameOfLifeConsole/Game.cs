@@ -1,4 +1,5 @@
 ﻿using GameOfLifeConsole.Services;
+using System.Diagnostics;
 
 namespace GameOfLifeConsole
 {
@@ -39,6 +40,11 @@ namespace GameOfLifeConsole
                             StartGameRandom();
                         }
                         break;
+                    case "P":
+                        {
+                            ParallelStartGamesRandom();
+                        }
+                        break;
                     default:
                         {
                             AppUserInterface.IncorrectDataInput();
@@ -54,9 +60,9 @@ namespace GameOfLifeConsole
                     Console.SetCursorPosition(0, 0);
                     gameLogic.NewCellGeneration();
                     gameLogic.DrawField();
-                    //Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     Console.WriteLine();
-                    Console.ReadLine();
+                    //Console.ReadLine();
 
                     if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Enter)
                     {
@@ -104,6 +110,30 @@ namespace GameOfLifeConsole
             try
             {
                 gameLogic = new GameLogic(FieldGeneration.GenerateRandom());
+            }
+            catch (Exception)
+            {
+                AppUserInterface.IncorrectDataInput();
+                Console.ReadLine();
+            }
+            gameLogic.AliveCells().ToString();
+        }
+
+        /// <summary>
+        /// The method to print fulfilled data in array randomly for 1000 games.
+        /// </summary>
+        public void ParallelStartGamesRandom()
+        {
+            Console.Clear();
+            try
+            {
+                // To call the parallelgames method many times in a column (based on the "times" variable)
+                int times = 1000;
+                gameLogic = new GameLogic(FieldGeneration.GenerateRandom());
+                for (int column = 0; column < times; column++)
+                {
+                    gameLogic.NewGameExecutionParallel();
+                }
             }
             catch (Exception)
             {
