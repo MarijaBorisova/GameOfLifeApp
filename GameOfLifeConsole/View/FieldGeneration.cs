@@ -42,5 +42,27 @@
 
             return gameField;
         }
+
+        /// <summary>
+        /// The method to initialize the array field by the random order for multiple games.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns> The array fulfilled by symbols randomly.</returns>
+        public static int[,] GenerateRandomMultipleGames(int width, int height)
+        {
+            var gameField = new int[width, height];
+            Random random = new Random();
+
+            for (int row = 0; row < gameField.GetLength(1); row++)
+            {
+                for (int column = 0; column < gameField.GetLength(0); column++)
+                {
+                    gameField[column, row] = random.Next(2);
+                }
+            }
+
+            return gameField;
+        }
     }
 }
