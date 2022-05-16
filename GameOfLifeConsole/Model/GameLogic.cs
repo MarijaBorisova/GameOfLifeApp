@@ -12,17 +12,14 @@
         public int[,] gameField;
         public int rowsInField;
         public int columnsInField;
-        public GameLogic[] gameParallel;
 
         //Field, property to count the next cell generation.
         public int countIteration { get; set; }
-        public int gameTotal { get; set; }
 
         // Constructor to inialiaze Json convert from int to string.
         public GameLogic()
         {
             gameField = new int[0, 0];
-            gameParallel = new GameLogic[0];
         }
 
         /// <summary>
@@ -35,8 +32,6 @@
             rowsInField = gameField.GetLength(1);
             columnsInField = gameField.GetLength(0);
             countIteration = 1;
-            gameParallel = new GameLogic[rowsInField];
-            gameTotal = 1;
         }
 
         /// <summary>
@@ -156,7 +151,6 @@
 
             gameField = newGameField;
             countIteration++;
-            gameTotal++;
         }
     }
 }
