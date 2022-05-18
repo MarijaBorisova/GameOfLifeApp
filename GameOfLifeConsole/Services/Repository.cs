@@ -19,7 +19,8 @@
         public const string Random1000GamesSelection = "To execute 1000 games in parallel, please, select (P).\t";
         public const string Selection = "Select : M or R: or P:\t ";
         public const string MultipleGameRequirements = "Press the key 'Enter' to execute 1000 games in parallel.\n";
-        public const string MultipleGameSelection = "To select 8 games in 1000, press 'G':\t \n";
         public const string MultipleGameSave = "To save all the games, press 'S':\t \n";
+        public const string SelectEightGames = "To select 8 games from the list, press 'G':\t \n";
+        public const string SelectEightGamesFirstNumber = "What is the first game number?";
     }
 }
