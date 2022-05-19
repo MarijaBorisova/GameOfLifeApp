@@ -15,10 +15,14 @@ namespace GameOfLifeConsole
         private FileReadSaveMultipleGames _fileReadSaveMultipleGames = new FileReadSaveMultipleGames();
         private uint _maxRuns = 50;
         private int _runs = 0;
-        private int[] selectedEightGames;
-        public int gameNumberFirst;
-        public int gameNumberLast;
+        public List<int> selectedEightGames = new List<int>(8);
+        public int numberOfGamesToDisplay { get; set; }
+        public int times;
 
+        public Game()
+        {
+            numberOfGamesToDisplay = 1;
+        }
         /// <summary>
         /// The method for running the game.
         /// </summary>
@@ -47,6 +51,7 @@ namespace GameOfLifeConsole
                     case "P":
                         {
                             ParallelStartGamesRandom();
+                            SelectEightGamesFromThousand();
                             RunThousandGames();
                         }
                         break;
@@ -91,9 +96,8 @@ namespace GameOfLifeConsole
         public void ParallelStartGamesRandom()
         {
             Console.Clear();
-            Console.WriteLine(Repository.MultipleGameRequirements);
-            Console.WriteLine(Repository.MultipleGameSave);
             Console.WriteLine(Repository.SelectEightGames);
+            Console.WriteLine(Repository.MultipleGameSave);
 
             // To call the parallelgames method many times in a column (based on the "times" variable)
             int times = 1000;
@@ -104,22 +108,28 @@ namespace GameOfLifeConsole
             }
         }
 
+        /// <summary>
+        /// To select eight games from the executed in parallel thousand games.
+        /// </summary>
         public void SelectEightGamesFromThousand()
         {
-            //int [] selectedEighGames = games.Last()
-            //                   .Where(x => games.Contains(x.gameNr));
-
-            //Console.WriteLine(Repository.SelectEightGamesFirstNumber);
-            ////int target = Convert.ToInt32(Console.ReadLine());
-            //for (var gameNr = 0; gameNr < games.Count; gameNr++)
-            //{
-            //    string target = ($"Game Nr :") + gameNr;
-            //    if (games[gameNr].Equals(target))
-            //    {
-            //        Console.WriteLine(games[gameNr]);
-            //    }
-            //}
-            //Console.ReadLine();
+            while (selectedEightGames.Count <= 8)
+            {
+                try
+                {
+                    Console.WriteLine(Repository.SelectEightGamesNumber);
+                    int gameNumber = Convert.ToInt32(Console.ReadLine());
+                    if (gameNumber < games.Count)
+                    {
+                        selectedEightGames.Add(gameNumber);
+                    }
+                }
+                catch (Exception)
+                {
+                    AppUserInterface.IncorrectDataInput();
+                    Console.ReadLine();
+                }
+            }
         }
 
         /// <summary>
@@ -155,44 +165,23 @@ namespace GameOfLifeConsole
             {
                 for (var gameNr = 0; gameNr < games.Count; gameNr++)
                 {
+                    games[gameNr].NewCellGeneration();
+                }
+                foreach (var gameNr in selectedEightGames)
+                {
                     Console.Title = games[gameNr].AliveCells().ToString("   Alive cells number: {0}");
                     games[gameNr].NewCellGeneration();
                     Console.WriteLine("Game Nr :" + gameNr);
                     games[gameNr].DrawField();
                     Thread.Sleep(1000);
+                    Console.WriteLine();
                     if (exit = PauseMenu())
                     {
                         break;
                     }
-                     
-                        //Console.WriteLine(Repository.SelectEightGamesFirstNumber);
-                        //int target = Convert.ToInt32(Console.ReadLine());
-                        //for (var selectedGameNr = 0; selectedGameNr < games.Count; selectedGameNr++)
-                        //{
-                        //    if (games[selectedGameNr].Equals(target))
-                        //    {
-                        //        Console.WriteLine(games[selectedGameNr]);
-                        //    }
-                        //}
-                        //Console.ReadLine();
-                        //bool isExist = games[gameNr].Find(target);
-                        //if (isExist)
-                        //{
-                        //    Console.WriteLine("Element found in the list");
-                        //Console.WriteLine(target);
-                        //}
-                        //else
-                        //{
-                        //    Console.WriteLine("Element not found in the given list");
-                        //}
-
-                        // Contains - Check if an item is in the list    
-
-                    }
+                }
             }
-        
-    }
-
+        }
 
         /// <summary>
         /// To implement the functionality of keys: restore the data, continue or quit from the game variant.
@@ -216,12 +205,6 @@ namespace GameOfLifeConsole
                         _fileReadSaveMultipleGames.SaveData(games);
                         _fileReadSaveMultipleGames.LoadData();
                     }
-                    //Console.WriteLine(Repository.SelectEightGamesFirstNumber);
-                    //string select = Console.ReadLine();
-                    //if (select == "G")
-                    //{
-                    //    SelectEightGamesFromThousand();
-                    //}
                     Console.WriteLine(Repository.StopOrContinue);
                     string exit = Console.ReadLine();
                     if (exit == "E")

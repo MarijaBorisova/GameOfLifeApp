@@ -16,11 +16,11 @@
         public const string Title = "App Title: Game Of Life";
         public const string ManualOrRandomSelection = "Please, select if you would like to see the Blinker life circle (M) or " +
                 "LifeCircle with Random numbers (R). \t";
-        public const string Random1000GamesSelection = "To execute 1000 games in parallel, please, select (P).\t";
+        public const string SelectEightGamesInRandomlyExecuted1000Games = "To show selected 8 games in 1000 games in parallel, please, select (P).\t";
         public const string Selection = "Select : M or R: or P:\t ";
-        public const string MultipleGameRequirements = "Press the key 'Enter' to execute 1000 games in parallel.\n";
-        public const string MultipleGameSave = "To save all the games, press 'S':\t \n";
-        public const string SelectEightGames = "To select 8 games from the list, press 'G':\t \n";
-        public const string SelectEightGamesFirstNumber = "What is the first game number?";
+        public const string MultipleGameSave = "To save all 1000 games, press 'S':\t \n";
+        public const string SelectEightGames = "Select 8 games from 1000 executed games in parallel list";
+        public const string SelectEightGamesNumber = "Please, write what game's number you would like to select in 1000:\t\n";
+        public const string WrongGameNumberInput = "You input game number is out of range.";
     }
 }
