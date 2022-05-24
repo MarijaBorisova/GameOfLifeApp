@@ -35,6 +35,28 @@
         }
 
         /// <summary>
+        /// The method to initialize the array field by the random order.
+        /// </summary>
+        /// <returns> The array fulfilled by symbols randomly.</returns>
+        public int[,] GenerateRandomFake()
+        {
+            var rowsInField = 0;
+            var columnsInField = 0;
+            var gameField = new int[columnsInField, rowsInField];
+            Random random = new Random();
+
+            for (int row = 0; row < gameField.GetLength(0); row++)
+            {
+                for (int column = 0; column < gameField.GetLength(1); column++)
+                {
+                    gameField[column, row] = random.Next(2);
+                }
+            }
+
+            return gameField;
+        }
+
+        /// <summary>
         /// Print the current field on console.
         /// </summary>
         public void DrawField()
@@ -78,7 +100,7 @@
         /// <param name="currentRow"> The current cell x coordinate. </param>
         /// <param name="currentColumn"> The current cell y coordinate. </param>
         /// <returns> Alive number of neighbours. </returns>
-        public int NeighboursCount(int currentRow, int currentColumn)
+        public int NeighboursAliveCount(int currentRow, int currentColumn)
         {
             int count = 0;
             for (int column = currentColumn - 1; column <= currentColumn + 1; column++)
@@ -100,11 +122,12 @@
         public void NewCellGeneration()
         {
             int[,] newGameField = new int[columnsInField, rowsInField];
+
             for (int column = 0; column < columnsInField; column++)
             {
                 for (int row = 0; row < rowsInField; row++)
                 {
-                    int neighboursNumber = NeighboursCount(row, column);
+                    int neighboursNumber = NeighboursAliveCount(row, column);
                     // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
                     if (gameField[column, row] == 1 && neighboursNumber < 2)
                     {
@@ -119,7 +142,7 @@
 
                     //Any live cell with two or three live neighbours lives on to the next generation.
                     else if (gameField[column, row] == 1 &&
-                           (neighboursNumber == 2 || neighboursNumber == 3))
+                             (neighboursNumber == 2 || neighboursNumber == 3))
                     {
                         newGameField[column, row] = 1;
                     }

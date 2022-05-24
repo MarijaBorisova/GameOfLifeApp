@@ -6,6 +6,7 @@
         {
             Console.WriteLine(Repository.Title);
             Console.WriteLine(Repository.ManualOrRandomSelection);
+            Console.WriteLine(Repository.SelectEightGamesInRandomlyExecuted1000Games);
             Console.Write(Repository.Selection);
         }
 
