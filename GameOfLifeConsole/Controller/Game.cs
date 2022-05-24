@@ -108,7 +108,7 @@ namespace GameOfLifeConsole
         public void SelectEightGamesFromThousand()
         {
             selectedEightGames = new List<int>();
-            while (selectedEightGames.Count <= 2)
+            while (selectedEightGames.Count <= 8)
             {
                 try
                 {
