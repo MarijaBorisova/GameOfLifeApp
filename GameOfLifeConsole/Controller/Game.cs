@@ -11,18 +11,12 @@ namespace GameOfLifeConsole
     public class Game
     {
         public List<GameLogic> games = new List<GameLogic>();
-        //private FileReadSave _fileReadSave = new FileReadSave();
         private FileReadSaveMultipleGames _fileReadSaveMultipleGames = new FileReadSaveMultipleGames();
         private uint _maxRuns = 50;
         private int _runs = 0;
         public List<int> selectedEightGames = new List<int>(8);
-        public int numberOfGamesToDisplay { get; set; }
         public int times;
 
-        public Game()
-        {
-            numberOfGamesToDisplay = 1;
-        }
         /// <summary>
         /// The method for running the game.
         /// </summary>
@@ -113,7 +107,8 @@ namespace GameOfLifeConsole
         /// </summary>
         public void SelectEightGamesFromThousand()
         {
-            while (selectedEightGames.Count <= 8)
+            selectedEightGames = new List<int>();
+            while (selectedEightGames.Count <= 2)
             {
                 try
                 {
@@ -163,10 +158,15 @@ namespace GameOfLifeConsole
             var exit = false;
             while (!exit)
             {
-                for (var gameNr = 0; gameNr < games.Count; gameNr++)
+                for (var totalGamesNr = 0; totalGamesNr < games.Count; totalGamesNr++)
                 {
-                    games[gameNr].NewCellGeneration();
-                }
+                    //games.Add(games[totalGamesNr]);
+                    ////Console.WriteLine("Total Alive Cells count in 1000 games:"
+                    ////    + games[totalGamesNr].AliveCells().ToString("{0}"));
+                    ////Console.WriteLine(games[totalGamesNr].AliveCells().ToString("   Alive cells number: {0}"));
+                    //Console.ReadLine();
+
+            }
                 foreach (var gameNr in selectedEightGames)
                 {
                     Console.Title = games[gameNr].AliveCells().ToString("   Alive cells number: {0}");
